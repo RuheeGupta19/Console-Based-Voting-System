@@ -3,17 +3,14 @@
 #include <iostream>
 #include <limits>
 #include "utils.h"
-
 std::string get_input()
 {
     std::string line;
-
     if (!std::getline(std::cin, line))
     {
         std::cin.clear();
         return "";
     }
-
     // strip stray CR / trailing spaces (Windows line endings)
     while (!line.empty() && (line.back() == '\r' || line.back() == ' ' || line.back() == '\t'))
         line.pop_back();
