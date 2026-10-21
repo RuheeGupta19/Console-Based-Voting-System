@@ -2,8 +2,8 @@
 #define CONFIG_H
 #include <string>
 
-constexpr const char* CANDIDATE_FILE = "candidates.txt";  // id|name|party
-constexpr const char* VOTER_FILE     = "voters.txt";      // voter_id|name
+constexpr const char* CANDIDATE_FILE = "candidates.txt"; 
+constexpr const char* VOTER_FILE     = "voters.txt";     
 constexpr const char* VOTES_FILE     = "votes.txt";       
 constexpr const char* VOTED_FILE     = "voted.txt";      
 
