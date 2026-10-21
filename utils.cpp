@@ -12,7 +12,6 @@ std::string get_input()
         return "";
     }    while (!line.empty() && (line.back() == '\r' || line.back() == ' ' || line.back() == '\t'))
         line.pop_back();
-
     return line;
 }
 
