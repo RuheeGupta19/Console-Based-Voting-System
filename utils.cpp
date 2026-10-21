@@ -14,7 +14,6 @@ std::string get_input()
         line.pop_back();
     return line;
 }
-
 int positive_int(const std::string& input)
 {
     std::string s = input;
