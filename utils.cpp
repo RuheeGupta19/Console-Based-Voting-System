@@ -3,30 +3,22 @@
 #include <iostream>
 #include <limits>
 #include "utils.h"
-
 std::string get_input()
 {
     std::string line;
-
     if (!std::getline(std::cin, line))
     {
         std::cin.clear();
         return "";
-    }
-
-    // strip stray CR / trailing spaces (Windows line endings)
-    while (!line.empty() && (line.back() == '\r' || line.back() == ' ' || line.back() == '\t'))
+    }    while (!line.empty() && (line.back() == '\r' || line.back() == ' ' || line.back() == '\t'))
         line.pop_back();
-
     return line;
 }
-
 int positive_int(const std::string& input)
 {
     std::string s = input;
     while (!s.empty() && std::isspace(static_cast<unsigned char>(s.back())))
         s.pop_back();
-
     if (s.empty())
         return 0;
 
