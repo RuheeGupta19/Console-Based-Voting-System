@@ -10,9 +10,7 @@ std::string get_input()
     {
         std::cin.clear();
         return "";
-    }
-    // strip stray CR / trailing spaces (Windows line endings)
-    while (!line.empty() && (line.back() == '\r' || line.back() == ' ' || line.back() == '\t'))
+    }    while (!line.empty() && (line.back() == '\r' || line.back() == ' ' || line.back() == '\t'))
         line.pop_back();
 
     return line;
