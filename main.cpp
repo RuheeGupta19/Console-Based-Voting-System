@@ -10,21 +10,18 @@
 int main()
 {
     init_storage();
-
     std::cout << "====================================\n";
     std::cout << "   TIME-BOUND VOTING SYSTEM\n";
     std::cout << "====================================\n";
 
     std::cout << "\nEnter admin password: ";
     std::string password = get_input();
-
     if (password != ADMIN_PASSWORD)
     {
         std::cout << "Incorrect password.\n";
         return 0;
     }
     std::cout << "Admin login successful.\n";
-
     std::cout << "\nCandidate registration time: ";
     int candidate_time = positive_int(get_input());
 
