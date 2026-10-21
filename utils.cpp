@@ -19,7 +19,6 @@ int positive_int(const std::string& input)
     std::string s = input;
     while (!s.empty() && std::isspace(static_cast<unsigned char>(s.back())))
         s.pop_back();
-
     if (s.empty())
         return 0;
 
