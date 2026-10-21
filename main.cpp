@@ -7,7 +7,6 @@
 #include "voter.h"
 #include "voting.h"
 #include "results.h"
-
 int main()
 {
     init_storage();
