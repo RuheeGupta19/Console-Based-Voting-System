@@ -24,7 +24,6 @@ int main()
         std::cout << "Incorrect password.\n";
         return 0;
     }
-
     std::cout << "Admin login successful.\n";
 
     std::cout << "\nCandidate registration time: ";
@@ -38,7 +37,6 @@ int main()
         std::cout << "Invalid time entered.\n";
         return 1;
     }
-
     candidate_registration(candidate_time);
 
     voter_registration(voter_time);
@@ -53,7 +51,6 @@ int main()
         std::cout << "Incorrect password.\n";
         return 0;
     }
-
     std::cout << "Voting duration: ";
     int voting_time = positive_int(get_input());
 
@@ -62,7 +59,6 @@ int main()
         std::cout << "Invalid voting time.\n";
         return 1;
     }
-
     voting_phase(voting_time);
 
     show_results();
