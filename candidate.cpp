@@ -4,21 +4,17 @@
 #include <ctime>
 #include "candidate.h"
 #include "utils.h"
-
 using namespace std;
-
 int load_candidates(Candidate candidates[])
 {
     int count = 0;
     ifstream file(CANDIDATE_FILE);
     string line;
-
     while (count < MAX_CANDIDATES && getline(file, line))
     {
         size_t p1 = line.find('|');
         if (p1 == string::npos)
             continue;
-
         size_t p2 = line.find('|', p1 + 1);
         if (p2 == string::npos)
             continue;
