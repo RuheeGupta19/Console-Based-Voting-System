@@ -52,64 +52,47 @@ int add_candidate(const std::string& name, const std::string& party)
 
     if (static_cast<int>(candidates.size()) >= MAX_CANDIDATES)
         return -2;
-
     std::ofstream file(CANDIDATE_FILE, std::ios::app);
-
     if (!file)
         return -2;
-
     file << next_id << '|' << name << '|' << party << '\n';
-
     return next_id;
 }
-
 void list_candidates()
 {
     std::vector<Candidate> candidates = load_candidates();
-
     if (candidates.empty())
     {
         std::cout << "No candidates registered.\n";
         return;
     }
-
     std::cout << "\nRegistered Candidates:\n";
-
     for (const Candidate& c : candidates)
         std::cout << c.id << ". " << c.name << " (" << c.party << ")\n";
 }
-
 void candidate_registration(int duration)
 {
     std::time_t end_time = std::time(nullptr) + duration;
-
     std::cout << "\n=== CANDIDATE REGISTRATION ===\n";
-
     while (time_left(end_time) > 0)
     {
         std::cout << "\nTime left: " << time_left(end_time) << " seconds\n";
         std::cout << "Enter command (add/list/end): ";
         std::string command = get_input();
-
         if (command == "add")
         {
             std::cout << "Candidate name: ";
             std::string name = get_input();
-
             std::cout << "Party name: ";
             std::string party = get_input();
-
             clean_field(name);
             clean_field(party);
-
             if (name.empty() || party.empty())
             {
                 std::cout << "Name and party are required.\n";
                 continue;
             }
-
             int id = add_candidate(name, party);
-
             if (id == -1)
                 std::cout << "Candidate already exists.\n";
             else if (id == -2)
@@ -125,7 +108,6 @@ void candidate_registration(int duration)
         {
             std::cout << "Enter admin password: ";
             std::string password = get_input();
-
             if (password == ADMIN_PASSWORD)
             {
                 std::cout << "Registration ended.\n";
