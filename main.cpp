@@ -7,9 +7,7 @@
 #include "voter.h"
 #include "voting.h"
 #include "results.h"
-
 using namespace std;
-
 int main()
 {
     init_storage();
@@ -23,7 +21,6 @@ int main()
         cout << "Incorrect password.\n";
         return 0;
     }
-    
     cout << "Admin login successful.\n";
     cout << "\nCandidate registration time: ";
     int candidate_time = positive_int(get_input());
@@ -34,7 +31,6 @@ int main()
         cout << "Invalid time entered.\n";
         return 1;
     }
-    
     candidate_registration(candidate_time);
     voter_registration(voter_time);
     cout << "\n=== VOTING SETUP ===\n";
@@ -45,7 +41,6 @@ int main()
         cout << "Incorrect password.\n";
         return 0;
     }
-    
     cout << "Voting duration: ";
     int voting_time = positive_int(get_input());
     if (voting_time <= 0)
@@ -53,8 +48,6 @@ int main()
         cout << "Invalid voting time.\n";
         return 1;
     }
-
-    
     voting_phase(voting_time);
     show_results();
     cout << "\nVoting process completed.\n";
