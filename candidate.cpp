@@ -18,7 +18,6 @@ std::vector<Candidate> load_candidates()
         if (p2 == std::string::npos)
             continue;
         Candidate c;
-
         try
         {
             c.id = std::stoi(line.substr(0, p1));
