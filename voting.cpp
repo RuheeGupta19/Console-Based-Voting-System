@@ -1,36 +1,39 @@
+
 #include <algorithm>
 #include <cctype>
 #include <ctime>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <vector>
 #include "voting.h"
 #include "candidate.h"
 #include "voter.h"
 #include "config.h"
 #include "utils.h"
 
-// Appends one line (the candidate id) to votes.txt
+using namespace std;
+
+// Appends one line (the candidate ID) to votes.txt
 bool cast_vote(int candidate_id)
 {
-    std::ofstream file(VOTES_FILE, std::ios::app);
+    ofstream file(VOTES_FILE, ios::app);
 
     if (!file)
         return false;
 
     file << candidate_id << '\n';
     file.flush();
+
     return static_cast<bool>(file);
 }
 
-// Checks voted.txt for this voter id
-bool has_voted(const std::string& voter_id)
+// Checks voted.txt for this voter ID
+bool has_voted(const string& voter_id)
 {
-    std::ifstream file(VOTED_FILE);
-    std::string line;
+    ifstream file(VOTED_FILE);
+    string line;
 
-    while (std::getline(file, line))
+    while (getline(file, line))
     {
         if (line == voter_id)
             return true;
@@ -39,39 +42,43 @@ bool has_voted(const std::string& voter_id)
     return false;
 }
 
-// Appends the voter id to voted.txt
-bool mark_voted(const std::string& voter_id)
+// Appends the voter ID to voted.txt
+bool mark_voted(const string& voter_id)
 {
-    std::ofstream file(VOTED_FILE, std::ios::app);
+    ofstream file(VOTED_FILE, ios::app);
 
     if (!file)
         return false;
 
     file << voter_id << '\n';
     file.flush();
+
     return static_cast<bool>(file);
 }
 
 void voting_phase(int duration)
 {
-    std::vector<Candidate> candidates = load_candidates();
+    Candidate candidates[MAX_CANDIDATES];
+    int count = load_candidates(candidates);
 
-    if (candidates.empty())
+    if (count == 0)
     {
-        std::cout << "No candidates available.\n";
+        cout << "No candidates available.\n";
         return;
     }
 
-    std::time_t end_time = std::time(nullptr) + duration;
+    time_t end_time = time(nullptr) + duration;
 
-    std::cout << "\n=== VOTING PHASE ===\n";
+    cout << "\n=== VOTING PHASE ===\n";
 
     while (time_left(end_time) > 0)
     {
-        std::cout << "\nTime left: " << time_left(end_time) << " seconds\n";
-        std::cout << "Commands: vote/list/end\n";
-        std::cout << "cmd> ";
-        std::string command = get_input();
+        cout << "\nTime left: " << time_left(end_time)
+             << " seconds\n";
+        cout << "Commands: vote/list/end\n";
+        cout << "cmd> ";
+
+        string command = get_input();
 
         if (command == "list")
         {
@@ -81,84 +88,102 @@ void voting_phase(int duration)
 
         if (command == "end")
         {
-            std::cout << "Enter admin password: ";
-            std::string password = get_input();
+            cout << "Enter admin password: ";
+            string password = get_input();
 
             if (password == ADMIN_PASSWORD)
             {
-                std::cout << "Voting ended.\n";
+                cout << "Voting ended.\n";
                 break;
             }
 
-            std::cout << "Incorrect password.\n";
+            cout << "Incorrect password.\n";
             continue;
         }
 
         if (command != "vote")
         {
-            std::cout << "Invalid command.\n";
+            cout << "Invalid command.\n";
             continue;
         }
 
-        std::cout << "Enter Voter ID: ";
-        std::string voter_id = get_input();
+        cout << "Enter Voter ID: ";
+        string voter_id = get_input();
 
         if (voter_id.size() != 6)
         {
-            std::cout << "Invalid Voter ID.\n";
+            cout << "Invalid Voter ID.\n";
             continue;
         }
 
-        bool all_digits = std::all_of(voter_id.begin(), voter_id.end(),
-            [](unsigned char c) { return std::isdigit(c) != 0; });
+        bool all_digits = all_of(
+            voter_id.begin(),
+            voter_id.end(),
+            [](unsigned char c)
+            {
+                return isdigit(c) != 0;
+            }
+        );
 
         if (!all_digits)
         {
-            std::cout << "Voter ID must contain digits only.\n";
+            cout << "Voter ID must contain digits only.\n";
             continue;
         }
 
         if (!voter_exists(voter_id))
         {
-            std::cout << "Voter is not registered.\n";
+            cout << "Voter is not registered.\n";
             continue;
         }
 
         if (has_voted(voter_id))
         {
-            std::cout << "This voter already voted.\n";
+            cout << "This voter already voted.\n";
             continue;
         }
 
         list_candidates();
 
-        std::cout << "Enter candidate ID: ";
-        std::string selection = get_input();
+        cout << "Enter candidate ID: ";
+        string selection = get_input();
 
         int id = positive_int(selection);
+        int index = -1;
 
-        auto it = std::find_if(candidates.begin(), candidates.end(),
-            [id](const Candidate& c) { return c.id == id; });
-
-        if (it == candidates.end())
+        // Find the selected candidate without vector or find_if
+        for (int i = 0; i < count; i++)
         {
-            std::cout << "Invalid candidate ID.\n";
+            if (candidates[i].id == id)
+            {
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1)
+        {
+            cout << "Invalid candidate ID.\n";
             continue;
         }
 
         if (!cast_vote(id))
         {
-            std::cout << "ERROR: could not write " << VOTES_FILE
-                      << " (check folder permissions). Vote NOT recorded.\n";
+            cout << "ERROR: could not write " << VOTES_FILE
+                 << " (check folder permissions). Vote NOT recorded.\n";
             continue;
         }
 
         if (!mark_voted(voter_id))
-            std::cout << "WARNING: could not write " << VOTED_FILE << ".\n";
+        {
+            cout << "WARNING: could not write "
+                 << VOTED_FILE << ".\n";
+        }
 
-        std::cout << "Vote recorded for " << it->name << ".\n";
+        cout << "Vote recorded for "
+             << candidates[index].name << ".\n";
     }
 
     if (time_left(end_time) == 0)
-        std::cout << "\nVoting time expired.\n";
+        cout << "\nVoting time expired.\n";
 }
