@@ -9,7 +9,6 @@ std::vector<Candidate> load_candidates()
     std::vector<Candidate> candidates;
     std::ifstream file(CANDIDATE_FILE);
     std::string line;
-
     while (static_cast<int>(candidates.size()) < MAX_CANDIDATES && std::getline(file, line))
     {
         // format: id|name|party
