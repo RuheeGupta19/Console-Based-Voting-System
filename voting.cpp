@@ -1,4 +1,3 @@
-
 #include <algorithm>
 #include <cctype>
 #include <ctime>
@@ -17,13 +16,11 @@ using namespace std;
 bool cast_vote(int candidate_id)
 {
     ofstream file(VOTES_FILE, ios::app);
-
     if (!file)
         return false;
 
     file << candidate_id << '\n';
     file.flush();
-
     return static_cast<bool>(file);
 }
 
@@ -34,10 +31,8 @@ bool has_voted(const string& voter_id)
     string line;
 
     while (getline(file, line))
-    {
         if (line == voter_id)
             return true;
-    }
 
     return false;
 }
@@ -46,13 +41,11 @@ bool has_voted(const string& voter_id)
 bool mark_voted(const string& voter_id)
 {
     ofstream file(VOTED_FILE, ios::app);
-
     if (!file)
         return false;
 
     file << voter_id << '\n';
     file.flush();
-
     return static_cast<bool>(file);
 }
 
@@ -68,16 +61,13 @@ void voting_phase(int duration)
     }
 
     time_t end_time = time(nullptr) + duration;
-
     cout << "\n=== VOTING PHASE ===\n";
 
     while (time_left(end_time) > 0)
     {
-        cout << "\nTime left: " << time_left(end_time)
-             << " seconds\n";
+        cout << "\nTime left: " << time_left(end_time) << " seconds\n";
         cout << "Commands: vote/list/end\n";
         cout << "cmd> ";
-
         string command = get_input();
 
         if (command == "list")
@@ -116,14 +106,8 @@ void voting_phase(int duration)
             continue;
         }
 
-        bool all_digits = all_of(
-            voter_id.begin(),
-            voter_id.end(),
-            [](unsigned char c)
-            {
-                return isdigit(c) != 0;
-            }
-        );
+        bool all_digits = all_of(voter_id.begin(), voter_id.end(),
+            [](unsigned char c) { return isdigit(c) != 0; });
 
         if (!all_digits)
         {
@@ -144,14 +128,11 @@ void voting_phase(int duration)
         }
 
         list_candidates();
-
         cout << "Enter candidate ID: ";
         string selection = get_input();
-
         int id = positive_int(selection);
         int index = -1;
 
-        // Find the selected candidate without vector or find_if
         for (int i = 0; i < count; i++)
         {
             if (candidates[i].id == id)
@@ -175,13 +156,9 @@ void voting_phase(int duration)
         }
 
         if (!mark_voted(voter_id))
-        {
-            cout << "WARNING: could not write "
-                 << VOTED_FILE << ".\n";
-        }
+            cout << "WARNING: could not write " << VOTED_FILE << ".\n";
 
-        cout << "Vote recorded for "
-             << candidates[index].name << ".\n";
+        cout << "Vote recorded for " << candidates[index].name << ".\n";
     }
 
     if (time_left(end_time) == 0)
