@@ -10,7 +10,6 @@
 #include "config.h"
 #include "utils.h"
 using namespace std;
-// Appends one line (the candidate ID) to votes.txt
 bool cast_vote(int candidate_id)
 {
     ofstream file(VOTES_FILE, ios::app);
