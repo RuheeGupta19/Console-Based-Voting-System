@@ -4,7 +4,6 @@
 #include <vector>
 #include "candidate.h"
 #include "utils.h"
-
 std::vector<Candidate> load_candidates()
 {
     std::vector<Candidate> candidates;
