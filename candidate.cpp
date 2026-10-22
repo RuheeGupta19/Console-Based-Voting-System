@@ -26,7 +26,6 @@ std::vector<Candidate> load_candidates()
         {
             continue;
         }
-
         c.name  = line.substr(p1 + 1, p2 - p1 - 1);
         c.party = line.substr(p2 + 1);
 
@@ -132,7 +131,6 @@ void candidate_registration(int duration)
                 std::cout << "Registration ended.\n";
                 break;
             }
-
             std::cout << "Incorrect password.\n";
         }
         else
