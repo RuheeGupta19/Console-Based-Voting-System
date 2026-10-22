@@ -17,7 +17,6 @@ std::vector<Candidate> load_candidates()
         std::size_t p2 = line.find('|', p1 + 1);
         if (p2 == std::string::npos)
             continue;
-
         Candidate c;
 
         try
