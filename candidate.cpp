@@ -18,7 +18,6 @@ int load_candidates(Candidate candidates[])
         size_t p2 = line.find('|', p1 + 1);
         if (p2 == string::npos)
             continue;
-
         Candidate c;
 
         try
