@@ -6,9 +6,7 @@ TARGET   = voting
 $(TARGET): $(OBJS)
 	$(CXX) $(OBJS) -o $@
 %.o: %.cpp
-
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
 clean:
 
 	rm -f $(OBJS) $(TARGET)
