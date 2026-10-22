@@ -14,7 +14,6 @@ std::vector<Candidate> load_candidates()
         std::size_t p1 = line.find('|');
         if (p1 == std::string::npos)
             continue;
-
         std::size_t p2 = line.find('|', p1 + 1);
         if (p2 == std::string::npos)
             continue;
