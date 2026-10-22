@@ -4,9 +4,7 @@ SRCS     = main.cpp utils.cpp storage.cpp candidate.cpp voter.cpp voting.cpp res
 OBJS     = $(SRCS:.cpp=.o)
 TARGET   = voting
 $(TARGET): $(OBJS)
-
 	$(CXX) $(OBJS) -o $@
-
 %.o: %.cpp
 
 	$(CXX) $(CXXFLAGS) -c $< -o $@
