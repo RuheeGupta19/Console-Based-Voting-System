@@ -3,55 +3,50 @@
 #include <iostream>
 #include <limits>
 #include "utils.h"
-std::string get_input()
+using namespace std;
+string get_input()
 {
-    std::string line;
-    if (!std::getline(std::cin, line))
+    string line;
+    if (!getline(cin, line))
     {
-        std::cin.clear();
+        cin.clear();
         return "";
-    }    while (!line.empty() && (line.back() == '\r' || line.back() == ' ' || line.back() == '\t'))
+    }
+    while (!line.empty() &&
+           (line.back() == '\r' || line.back() == ' ' || line.back() == '\t'))
         line.pop_back();
     return line;
 }
-int positive_int(const std::string& input)
+int positive_int(const string& input)
 {
-    std::string s = input;
-    while (!s.empty() && std::isspace(static_cast<unsigned char>(s.back())))
+    string s = input;
+    while (!s.empty() && isspace(static_cast<unsigned char>(s.back())))
         s.pop_back();
     if (s.empty())
         return 0;
-
     for (unsigned char c : s)
-    {
-        if (!std::isdigit(c))
+        if (!isdigit(c))
             return 0;
-    }
-
     try
     {
-        long long value = std::stoll(s);
-        if (value <= 0 || value > std::numeric_limits<int>::max())
+        long long value = stoll(s);
+        if (value <= 0 || value > numeric_limits<int>::max())
             return 0;
         return static_cast<int>(value);
     }
     catch (...)
     {
-        return 0;   // too large to parse
+        return 0;
     }
 }
-
-int time_left(std::time_t end_time)
+int time_left(time_t end_time)
 {
-    std::time_t now = std::time(nullptr);
-
+    time_t now = time(nullptr);
     if (end_time <= now)
         return 0;
-
-    return static_cast<int>(std::difftime(end_time, now));
+    return static_cast<int>(difftime(end_time, now));
 }
-
-void clean_field(std::string& s)
+void clean_field(string& s)
 {
-    std::replace(s.begin(), s.end(), '|', ' ');
+    replace(s.begin(), s.end(), '|', ' ');
 }
