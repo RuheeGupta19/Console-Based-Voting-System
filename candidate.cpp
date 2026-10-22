@@ -11,7 +11,6 @@ std::vector<Candidate> load_candidates()
     std::string line;
     while (static_cast<int>(candidates.size()) < MAX_CANDIDATES && std::getline(file, line))
     {
-        // format: id|name|party
         std::size_t p1 = line.find('|');
         if (p1 == std::string::npos)
             continue;
